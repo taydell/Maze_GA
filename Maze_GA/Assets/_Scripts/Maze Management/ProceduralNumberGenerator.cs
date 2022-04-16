@@ -13,4 +13,9 @@ public class ProceduralNumberGenerator
         return int.Parse(currentNum);
         //return Random.Range(1, 5);
     }
+
+    public static void ResetCurrentPosition()
+    {
+        currentPosition = 0;
+    }
 }

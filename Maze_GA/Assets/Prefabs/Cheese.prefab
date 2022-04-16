@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3508337868917661393}
   - component: {fileID: 9210804539294293467}
   m_Layer: 0
-  m_Name: Finish Location
+  m_Name: Cheese
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

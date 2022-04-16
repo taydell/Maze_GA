@@ -25,6 +25,8 @@ public class HuntAndKillMazeAlgorithm : MazeAlgorithm
             Kill(); //runs till hits a dead end
             Hunt(); // Finds next unvisited cell with adjacent visited cells 
         }
+
+        ProceduralNumberGenerator.ResetCurrentPosition();
     }
 
     private void Kill()
