@@ -5,27 +5,37 @@ using UnityEngine;
 public class Mouse : MonoBehaviour
 {
     private Vector3 _previousPosition;
+
     [SerializeField]
     private Queue<IEnumerator> _currentPath;
-    private List<Vector3> _originalInputs;
+    private List<Vector3> _originalInputs, _genome;
     private CoroutineQueue _coroutineQueue;
+    private RandomInputGenerator _randomInputGenerator;
 
-    public void InitMouse()
+    public void InitMouse(int genomeLength)
     {
         _currentPath = new Queue<IEnumerator>();
         _originalInputs = new List<Vector3>();
         _coroutineQueue = new CoroutineQueue(this);
+        _randomInputGenerator = new RandomInputGenerator();
         _coroutineQueue.StartLoop();
+
+        if(_genome == null)
+        {
+            _genome = _randomInputGenerator.GetRandomlyGeneratedGenome(genomeLength);
+        }
+        
+        SetPath(_genome);
     }
 
-    public void SetPath(List<Vector3> positions)
+    private void SetPath(List<Vector3> _genome)
     {
-        _originalInputs = positions;
+        _originalInputs = _genome;
 
         var currentPosition = _previousPosition;
-        foreach(var position in positions)
+        foreach(var gene in _genome)
         {
-             currentPosition += position;
+             currentPosition += gene;
             _currentPath.Enqueue(MoveMouse(currentPosition, 2));
         }
     }

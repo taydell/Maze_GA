@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2504682945985521782}
   - component: {fileID: 3526639861965573761}
   - component: {fileID: 5664919348511991327}
-  - component: {fileID: -1231043610511353445}
+  - component: {fileID: 6831317777615397502}
   - component: {fileID: -5663806940110749808}
   m_Layer: 0
   m_Name: Mouse
@@ -99,7 +99,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-1231043610511353445
+--- !u!114 &6831317777615397502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7772085762626829139}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d090804d409b0d448608d145aee754b, type: 3}
+  m_Script: {fileID: 11500000, guid: fdbc4c19b1f80de43bf87c2e3f8bad32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!54 &-5663806940110749808

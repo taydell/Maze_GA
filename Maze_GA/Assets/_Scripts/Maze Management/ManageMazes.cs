@@ -43,40 +43,15 @@ public class ManageMazes : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            var direction = new List<Vector3>() {
-                new Vector3(-6,0,0), //up
-                new Vector3(6,0,0),  //down
-                new Vector3(0,0,-6), //left
-                new Vector3(0,0,6),  //right
-            };
-
-            var mousePath = new List<Vector3>() { 
-                new Vector3(6,0,0),
-                new Vector3(6,0,0),
-                new Vector3(0,0,6),
-                new Vector3(-6,0,0),
-                new Vector3(0,0,6),
-                new Vector3(0,0,6),
-            };
-
-            //var mousePath2 = new List<Vector3>() {
-            //    new Vector3(6,0,0),
-            //    new Vector3(6,0,0),
-            //    new Vector3(6,0,0),
-            //    new Vector3(6,0,0),
-            //    new Vector3(6,0,0),
-            //    new Vector3(6,0,0),
-            //};
             var mouseComponent = Mazes[0].GetMouse().GetComponent<Mouse>();
             var test = Mazes[1].GetMouse().GetComponent<Mouse>();
+            var mazeLength = mazeColumns * mazeRows;
 
-            mouseComponent.InitMouse();
-            mouseComponent.SetPath(mousePath);
+            mouseComponent.InitMouse(mazeLength);
             mouseComponent.Move();
 
-            //test.InitMouse();
-            //test.SetPath(mousePath2);
-            //test.Move();
+            test.InitMouse(mazeLength);
+            test.Move();
 
             foreach (var maze in Mazes)
             {
