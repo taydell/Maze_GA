@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class Mouse : MonoBehaviour
 {
-    private Vector3 _previousPosition;
+    private Vector3 _previousPosition, _finalPosition;
 
     [SerializeField]
     private Queue<IEnumerator> _currentPath;
     private List<Vector3> _originalInputs, _genome;
     private CoroutineQueue _coroutineQueue;
     private RandomInputGenerator _randomInputGenerator;
+    private int _score = 0;
 
-    public void InitMouse(int genomeLength)
+    public void InitMouse(int genomeLength, List<Vector3> genome = null)
     {
         _currentPath = new Queue<IEnumerator>();
         _originalInputs = new List<Vector3>();
         _coroutineQueue = new CoroutineQueue(this);
         _randomInputGenerator = new RandomInputGenerator();
         _coroutineQueue.StartLoop();
+        _genome = genome;
 
         if(_genome == null)
         {
@@ -26,6 +28,11 @@ public class Mouse : MonoBehaviour
         }
         
         SetPath(_genome);
+    }
+
+    public void setScore(int score)
+    {
+        _score = score;
     }
 
     private void SetPath(List<Vector3> _genome)
@@ -64,12 +71,18 @@ public class Mouse : MonoBehaviour
         Move();
     }
 
+    public Vector3 GetFinalPosition()
+    {
+        return _finalPosition;
+    }
+
     IEnumerator MoveMouse(Vector3 targetPosition, float duration, bool backtracking = false)
     {
          float time = 0;
          Vector3 startPosition = transform.localPosition;
         if (!backtracking) { 
             _previousPosition = transform.localPosition;
+            _finalPosition = transform.localPosition;
             _originalInputs.RemoveAt(0);
         }
          while (time < duration)
