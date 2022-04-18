@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class Maze : MonoBehaviour
 {
-    private GameObject _mouse, _cheese, _ParentFolder;
+    private GameObject _mouseFolder, _cheese, _ParentFolder;
     private string _name;
+    private Mouse _mouse = new Mouse();
 
-    public Maze(GameObject mouse, GameObject cheese, GameObject parentFolder)
+    public Maze(GameObject mouseFolder, GameObject cheese, GameObject parentFolder)
     {
-        _mouse = mouse;
+        _mouseFolder = mouseFolder;
         _cheese = cheese;
         _ParentFolder = parentFolder;
         _name = parentFolder.name;
@@ -20,8 +21,21 @@ public class Maze : MonoBehaviour
         return _name;
     }
 
-    public GameObject GetMouse()
+    public GameObject GetMouseFolder()
+    {
+        return _mouseFolder;
+    }
+    public Mouse GetMouse()
     {
         return _mouse;
+    }
+    public void SetMouse(Mouse mouse)
+    {
+        _mouse = mouse;
+    }
+
+    public GameObject GetParentFolder()
+    {
+        return _ParentFolder;
     }
 }

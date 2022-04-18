@@ -10,7 +10,7 @@ public class MazeLoader : MonoBehaviour
     private int _mazeRows, _mazeColumns;
     private float _size;
     private GameObject _mazeFolder, _wallsFolder, _floorsFolder, _northWallsFolder, _southWallsFolder, _eastWallsFolder, _westWallsFolder, 
-                       _mouse, _cheese;
+                       _mouseFolder, _cheese;
 
     public Maze Init(int mazeRows, int mazeColumns, float size, int mazeId)
     {
@@ -36,9 +36,9 @@ public class MazeLoader : MonoBehaviour
 
                 if (r == 0 && c == 0)
                 {
-                    _mouse = Instantiate(mouse, new Vector3(rowXPosition, 0, columZPosition), Quaternion.identity);
+                    _mouseFolder = Instantiate(mouse, new Vector3(rowXPosition, 0, columZPosition), Quaternion.identity);
 
-                    _mouse.transform.parent = _mazeFolder.transform;
+                    _mouseFolder.transform.parent = _mazeFolder.transform;
                 }
 
                 if (r == _mazeRows - 1 && c == _mazeColumns - 1)
@@ -79,7 +79,7 @@ public class MazeLoader : MonoBehaviour
             }
         };
 
-        return new Maze(_mouse, _cheese, _mazeFolder);
+        return new Maze(_mouseFolder, _cheese, _mazeFolder);
     }
 
     public MazeCell[,] GetMazeCells()

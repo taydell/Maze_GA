@@ -24,7 +24,7 @@ public class RandomInputGenerator : MonoBehaviour
         return genome;
     }
 
-    private Vector3 GetRandomCardinalDirection()
+    public Vector3 GetRandomCardinalDirection()
     {
         return _cardinalDirections[Random.Range(0, _cardinalDirections.Length)];
 
