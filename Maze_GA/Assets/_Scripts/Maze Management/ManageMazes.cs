@@ -27,7 +27,7 @@ public class ManageMazes : MonoBehaviour
         var currentStartingPostion = new Vector3(0, 0, 0);
         var mazeLoader = gameObject.GetComponent<MazeLoader>();
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 5; i++)
         {
             var maze = mazeLoader.Init(mazeRows, mazeColumns, size, (i + 1));
             
@@ -52,6 +52,8 @@ public class ManageMazes : MonoBehaviour
             Mazes.Add(maze);
             _mice.Add(mouse);
         }
+        Mazes[0].GetMouse().SetName("Taylor");
+        Mazes[0].SetMouseFolderName();
     }
 
     private void Update()
@@ -70,8 +72,15 @@ public class ManageMazes : MonoBehaviour
                 _gA_Started = true;
             }
             MoveCameraToBestInPopulation();
-
-            //_gA_Manager.WorkPopulation();
+            if (!_gA_Manager.DidEightyPercentOfMiceReachCheese())
+            {
+                _gA_Manager.WorkPopulation();
+            }
+            else
+            {
+                _gA_Manager.MoveSmartMice();
+            }
+            
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

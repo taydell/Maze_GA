@@ -40,6 +40,8 @@ public class GA_Manager : MonoBehaviour
         {
             var mom = _population.GetEliteParent(_elite);
             var dad = _population.GetEliteParent(_elite);
+            //var mom = _population.GetPopulation()[0];
+            //var dad = _population.GetPopulation()[1];
 
             _population.GetPupFromChildPopulation(j).CrossOverChromosome(mom, dad);
             _population.GetPupFromChildPopulation(j).Mutate(_mutationChance);
@@ -48,6 +50,7 @@ public class GA_Manager : MonoBehaviour
         _population.CopyPopulation();
         _population.RankPopulation();
         _bestInGeneration.Add(_population.GetBestInPopulation());
+        _population.GetPopulation().ForEach(mouse => mouse.DidMouseReachedCheese());
     }
 
     public bool MiceStill(Population population)
@@ -65,5 +68,24 @@ public class GA_Manager : MonoBehaviour
     public Mouse GetBestInPopulation()
     {
         return _population.GetPopulation()[0];
+    }
+
+    public bool DidEightyPercentOfMiceReachCheese()
+    {
+        var miceThatReachedCheeseCount = 0;
+
+        _population.GetPopulation().ForEach(mouse => {
+            if (mouse.ReachedCheese())
+            {
+                miceThatReachedCheeseCount++;
+            }
+        });
+
+        return miceThatReachedCheeseCount >= _populationSize * .8;
+    }
+    
+    public void MoveSmartMice()
+    {
+        _population.GetPopulation().ForEach(mouse => mouse.Move());
     }
 }

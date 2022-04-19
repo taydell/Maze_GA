@@ -32,6 +32,11 @@ public class Maze : MonoBehaviour
     public void SetMouse(Mouse mouse)
     {
         _mouse = mouse;
+        _mouseFolder.name = _mouse.GetName();
+    }
+    public void SetMouseFolderName()
+    {
+        _mouseFolder.name = _mouse.name;
     }
 
     public GameObject GetParentFolder()

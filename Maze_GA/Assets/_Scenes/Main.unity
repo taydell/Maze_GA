@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa359f77a77e4c42b1a96f7dedbb74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeRows: 6
-  mazeColumns: 12
+  mazeRows: 3
+  mazeColumns: 6
   Mazes: []
   MainCamera: {fileID: 963194227}
