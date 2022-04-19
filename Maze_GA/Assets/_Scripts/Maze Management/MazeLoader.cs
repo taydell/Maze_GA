@@ -36,8 +36,7 @@ public class MazeLoader : MonoBehaviour
 
                 if (r == 0 && c == 0)
                 {
-                    _mouseFolder = Instantiate(mouse, new Vector3(rowXPosition, 0, columZPosition), Quaternion.identity);
-
+                    _mouseFolder = Instantiate(mouse, new Vector3(rowXPosition, 0, columZPosition), Quaternion.Euler(new Vector3(-90, -90, -90)));
                     _mouseFolder.transform.parent = _mazeFolder.transform;
                 }
 

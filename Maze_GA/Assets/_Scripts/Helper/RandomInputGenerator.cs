@@ -12,6 +12,14 @@ public class RandomInputGenerator : MonoBehaviour
         new Vector3(0,0,6),  //right
     };
 
+    private readonly Vector3[]_rotationalDirection = new Vector3[]
+    {
+        new Vector3(-90, -90, 90),
+        new Vector3(-90, -90, -90),
+        new Vector3(-90, -90, 0),
+        new Vector3(-90, -90, -180)
+    };
+
     public List<Vector3> GetRandomlyGeneratedGenome(int length)
     {
         var genome = new List<Vector3>();
@@ -28,5 +36,14 @@ public class RandomInputGenerator : MonoBehaviour
     {
         return _cardinalDirections[Random.Range(0, _cardinalDirections.Length)];
 
+    }
+
+    public Vector3[] GetAllPossibleDirections()
+    {
+        return _cardinalDirections;
+    }
+    public Vector3[] GetAllPossibleRotationalDirections()
+    {
+        return _rotationalDirection;
     }
 }

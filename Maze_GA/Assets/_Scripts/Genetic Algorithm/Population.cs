@@ -40,7 +40,12 @@ public class Population : MonoBehaviour
 
     public Mouse GetBestInPopulation()
     {
-        return _micePopulation[0];
+        return _micePopulation.First();
+    }
+
+    public Mouse GetWorstInPopulation()
+    {
+        return _micePopulation.Last();
     }
 
     public List<Mouse> GetPopulation()

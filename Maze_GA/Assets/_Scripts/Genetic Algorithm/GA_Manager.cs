@@ -58,21 +58,26 @@ public class GA_Manager : MonoBehaviour
         _population.GetPopulation().ForEach(mouse => mouse.DidMouseReachedCheese());
     }
 
-    public bool MiceStill(Population population)
+    public bool MiceMoving()
     {
-        foreach(var mouse in population.GetPopulation())
+        foreach (var mouse in _population.GetPopulation())
         {
             if (mouse.Moving())
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public Mouse GetBestInPopulation()
     {
-        return _population.GetPopulation()[0];
+        return _population.GetBestInPopulation();
+    }
+
+    public Mouse GetWorstInPopulation()
+    {
+        return _population.GetWorstInPopulation();
     }
 
     public bool DidEightyPercentOfMiceReachCheese()
@@ -110,5 +115,20 @@ public class GA_Manager : MonoBehaviour
     public int GetCurrentGeneration()
     {
         return _currentGeneration;
+    }
+
+    public float SlowestMouseTime()
+    {
+        var slowestTime = 0f;
+        _population.GetPopulation().ForEach(mouse => {
+
+            var timeSpentMoving = mouse.GetTimeSpentMoving();
+            if(timeSpentMoving > slowestTime)
+            {
+                slowestTime = timeSpentMoving;
+            }
+        });
+
+        return slowestTime + 10;
     }
 }

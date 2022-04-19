@@ -16,6 +16,8 @@ public class Mouse : MonoBehaviour
     private CoroutineQueue _coroutineQueue;
     private RandomInputGenerator _randomInputGenerator;
     private int _score = 0;
+    private Vector3 _directionFacing;
+    private float _timeSpentMoving = 0;
 
     private bool _gotCheese = false;
 
@@ -29,6 +31,7 @@ public class Mouse : MonoBehaviour
         _coroutineQueue.StartLoop();
         if(_name == null)
             _name = RandomNameSelector.GetName();
+        _directionFacing = _randomInputGenerator.GetAllPossibleDirections()[1];
     }
 
     public void SetGenome()
@@ -111,7 +114,6 @@ public class Mouse : MonoBehaviour
     public void ResetPositionToStart()
     {
         //_coroutineQueue.StopCoroutine();
-        _isMoving = false;
         transform.localPosition = new Vector3(0, 0, 0);
         _previousPosition = new Vector3(0, 0, 0);
         _originalInputs = _genome;
@@ -148,6 +150,11 @@ public class Mouse : MonoBehaviour
         return _gotCheese;
     }
 
+    public float GetTimeSpentMoving()
+    {
+        return _timeSpentMoving;
+    }
+
     private void SetPath()
     {
         var currentPosition = _previousPosition;
@@ -167,15 +174,18 @@ public class Mouse : MonoBehaviour
     {
         float time = 0;
         Vector3 startPosition = transform.localPosition;
-
+        RotateMouse(backtracking);
         if (!backtracking) { 
             _previousPosition = transform.localPosition;
             _finalPosition = transform.localPosition;
             //_originalInputs.RemoveAt(0);
             _currentIndexInGene++;
+            
         }
+        
         while (time < duration)
         {
+            
             transform.localPosition = Vector3.Lerp(startPosition, targetPosition, time / duration);
             time += Time.deltaTime;
             yield return 0;
@@ -184,6 +194,48 @@ public class Mouse : MonoBehaviour
         if (backtracking)
         {
             _coroutineQueue.StartLoop();
-        } 
+        }
+
+        if(_originalInputs.Count >= _currentIndexInGene)
+        {
+            _isMoving = false;
+        }
+    }
+
+    private void RotateMouse(bool backTracking)
+    {
+        var directionMoving = new Vector3(0,0,0);
+        if (backTracking)
+        {
+            directionMoving = _directionFacing * -1;
+        }
+        else
+        {
+            directionMoving =_originalInputs[_currentIndexInGene];
+        }
+        
+
+        if(_directionFacing != directionMoving)
+        {
+            if(directionMoving == _randomInputGenerator.GetAllPossibleDirections()[0]) 
+            {
+                transform.rotation = Quaternion.Euler(_randomInputGenerator.GetAllPossibleRotationalDirections()[0]);
+            }
+            else if (directionMoving == _randomInputGenerator.GetAllPossibleDirections()[1]) 
+            {
+                transform.rotation = Quaternion.Euler(_randomInputGenerator.GetAllPossibleRotationalDirections()[1]);
+            }
+            else if (directionMoving == _randomInputGenerator.GetAllPossibleDirections()[2]) 
+            {
+                transform.rotation = Quaternion.Euler(_randomInputGenerator.GetAllPossibleRotationalDirections()[2]);
+            }
+            else if (directionMoving == _randomInputGenerator.GetAllPossibleDirections()[3]) 
+            {
+                transform.rotation = Quaternion.Euler(_randomInputGenerator.GetAllPossibleRotationalDirections()[3]);
+            }
+        }
+
+        _directionFacing = directionMoving;
+        
     }
 }

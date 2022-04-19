@@ -19,6 +19,7 @@ public class ManageMazes : MonoBehaviour
     private MazeCell[,] _mazeCells;
     private bool _isInitialized = false;
     private bool _gA_Started = false;
+    private float _waiting;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class ManageMazes : MonoBehaviour
         var mazeLoader = gameObject.GetComponent<MazeLoader>();
         var uIManager = GameObject.Find("UIManager");
         _ui_manager = uIManager.GetComponent<UIManager>();
+        _waiting = 10;
 
         for (int i = 0; i < 100; i++)
         {
@@ -66,7 +68,7 @@ public class ManageMazes : MonoBehaviour
             Initialize();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || _gA_Started)
         {
             if (!_gA_Started)
             {
@@ -75,25 +77,28 @@ public class ManageMazes : MonoBehaviour
                 _gA_Started = true;
                 _ui_manager.Percent.text = "Percent: " + _gA_Manager.GetCurrentPercentOfSmartMice();
             }
-
-            _ui_manager.BestInGeneration.text = "Leading Mouse: " + _gA_Manager.GetBestInPopulation().GetName();
-            MoveCameraToBestInPopulation();
-            if (!_gA_Manager.DidEightyPercentOfMiceReachCheese())
+            if (!_gA_Manager.MiceMoving())
             {
-                _gA_Manager.WorkPopulation();
-                _ui_manager.Percent.text = "Percent: " + _gA_Manager.GetCurrentPercentOfSmartMice();
-                _ui_manager.CurrentGen.text = "Current Generation: " + _gA_Manager.GetCurrentGeneration();
+                _waiting += Time.deltaTime;
+                if(_waiting  > 5)
+                {
+                    _gA_Manager.GetPopulation().ResetMice();
+                    _ui_manager.BestInGeneration.text = "Leading Mouse: " + _gA_Manager.GetBestInPopulation().GetName();
+                    MoveCameraToBestInPopulation();
+                    if (!_gA_Manager.DidEightyPercentOfMiceReachCheese())
+                    {
+                        _gA_Manager.WorkPopulation();
+                        _ui_manager.Percent.text = "Percent: " + _gA_Manager.GetCurrentPercentOfSmartMice();
+                        _ui_manager.CurrentGen.text = "Current Generation: " + _gA_Manager.GetCurrentGeneration();
+                    }
+                    else
+                    {
+                        _ui_manager.Percent.text = "Percent: " + _gA_Manager.GetCurrentPercentOfSmartMice();
+                        _gA_Manager.MoveSmartMice();
+                    }
+                    _waiting = 0;
+                }
             }
-            else
-            {
-                _ui_manager.Percent.text = "Percent: " + _gA_Manager.GetCurrentPercentOfSmartMice();
-                _gA_Manager.MoveSmartMice();
-            }
-            
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-             _gA_Manager.GetPopulation().ResetMice();
         }
     }
 
@@ -110,6 +115,7 @@ public class ManageMazes : MonoBehaviour
     private void MoveCameraToBestInPopulation()
     {
         var bestInPopulation = _gA_Manager.GetBestInPopulation().GetName();
+        //var bestInPopulation = _gA_Manager.GetWorstInPopulation().GetName();
         var maze = Mazes.Where(maze => maze.GetMouse().GetName() == bestInPopulation).ToList();
 
         var BestMouseMazePosition = maze[0].GetParentFolder().transform.position;
