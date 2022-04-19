@@ -9,6 +9,7 @@ public class GA_Manager : MonoBehaviour
                 _mutationChance = 20;
     private float _elite = .1f;
     private bool _continue = true;
+    private int _currentGeneration = 0;
 
     private List<Mouse> _mice;
     private Population _population;
@@ -34,17 +35,21 @@ public class GA_Manager : MonoBehaviour
 
     public void WorkPopulation()
     {
+        _currentGeneration++;
         _population.GetPopulation().ForEach(mouse => mouse.Move());
 
         for (int j = 0; j < _populationSize; j++)
         {
-            var mom = _population.GetEliteParent(_elite);
-            var dad = _population.GetEliteParent(_elite);
-            //var mom = _population.GetPopulation()[0];
-            //var dad = _population.GetPopulation()[1];
+            if (!_population.GetPopulation()[j].ReachedCheese())
+            {
+                var mom = _population.GetEliteParent(_elite);
+                var dad = _population.GetEliteParent(_elite);
+                //var mom = _population.GetPopulation()[0];
+                //var dad = _population.GetPopulation()[1];
 
-            _population.GetPupFromChildPopulation(j).CrossOverChromosome(mom, dad);
-            _population.GetPupFromChildPopulation(j).Mutate(_mutationChance);
+                _population.GetPupFromChildPopulation(j).CrossOverChromosome(mom, dad);
+                _population.GetPupFromChildPopulation(j).Mutate(_mutationChance);
+            }
         }
 
         _population.CopyPopulation();
@@ -87,5 +92,23 @@ public class GA_Manager : MonoBehaviour
     public void MoveSmartMice()
     {
         _population.GetPopulation().ForEach(mouse => mouse.Move());
+    }
+
+    public int GetCurrentPercentOfSmartMice()
+    {
+        float miceThatReachedCheeseCount = 0;
+
+        _population.GetPopulation().ForEach(mouse => {
+            if (mouse.ReachedCheese())
+            {
+                miceThatReachedCheeseCount++;
+            }
+        });
+        return (int)((miceThatReachedCheeseCount / _populationSize) * (100));
+    }
+
+    public int GetCurrentGeneration()
+    {
+        return _currentGeneration;
     }
 }
